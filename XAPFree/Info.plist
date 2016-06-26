@@ -4,6 +4,10 @@
 <dict>
 	<key>PSFilters</key>
 	<dict>
+		<key>Classes</key>
+		<array>
+			<string>SKPaymentTransaction</string>
+		</array>
 		<key>Mode</key>
 		<string>Any</string>
 		<key>Bundles</key>

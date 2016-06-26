@@ -10,43 +10,27 @@
 #import "RuntimeUtils.h"
 #import <StoreKit/StoreKit.h>
 #import <objc/runtime.h>
-/*ZKSwizzleInterface(XAPFreeSKPaymentTransactionObserver,RDSparkleAppDelegate, NSObject)
-@implementation XAPFreeSKPaymentTransactionObserver
-- (void)paymentQueue:(SKPaymentQueue *)queue
- updatedTransactions:(NSArray<SKPaymentTransaction *> *)transactions{
-    NSLog(@"XAPFree---------Swizzled paymentQueue:updatedTransactions:");
-    for (SKPaymentTransaction* SKPT in transactions){
-        if(SKPT.transactionState== SKPaymentTransactionStateFailed){
-            NSLog(@"XAPFree---------Intercepting Transaction Status");
-            //[SKPT setValue:[NSNumber numberWithInteger:SKPaymentTransactionStatePurchased] forKey:@"transactionState"];
-            NSLog(@"XAPFree---------Intercepted Transaction Status");
-            
-            
-        }
+#define ReceiptFolderPath @"~/Documents/XAPFree"
+#define DefaultReceiptFolderPath @"~/Documents/XAPFree/DefaultReceipt"
+#define SavedReceiptPath @"~/Desktop/"
+static NSData* GetReceipt(){
+    if(![[NSFileManager defaultManager] fileExistsAtPath:ReceiptFolderPath]){
+        //CreateDirectory
+        
+        [[NSFileManager defaultManager] createDirectoryAtPath:ReceiptFolderPath withIntermediateDirectories:NO attributes:nil error:nil];
+        return nil;
+    }
+    else if([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/%@",ReceiptFolderPath,[[NSBundle mainBundle]bundleIdentifier]]]){
+        
+        return [NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@/%@",ReceiptFolderPath,[[NSBundle mainBundle]bundleIdentifier]]];
         
     }
-    ZKOrig(void,queue,transactions);
-    
-    
-}
-- (void)paymentQueue:(SKPaymentQueue *)queue
- removedTransactions:(NSArray<SKPaymentTransaction *> *)transactions{
-    NSLog(@"XAPFree---------Swizzled paymentQueue:removedTransactions:");
-    for (SKPaymentTransaction* SKPT in transactions){
-        if(SKPT.transactionState== SKPaymentTransactionStateFailed){
-            NSLog(@"XAPFree---------Intercepting Transaction Status");
-           //[SKPT setValue:[NSNumber numberWithInteger:SKPaymentTransactionStatePurchased] forKey:@"transactionState"];
-            
-            NSLog(@"XAPFree---------Intercepted Transaction Status");
-            //  SKPT.transactionState=SKPaymentTransactionStatePurchased;
-        }
+    else{
         
+        return [NSData dataWithContentsOfFile:DefaultReceiptFolderPath];
     }
-    ZKOrig(void,queue,transactions);
-    
     
 }
-@end*/
 
 ZKSwizzleInterface(XAPFreeSKPaymentTransaction,SKPaymentTransaction, NSObject)
 @implementation XAPFreeSKPaymentTransaction
@@ -54,15 +38,29 @@ ZKSwizzleInterface(XAPFreeSKPaymentTransaction,SKPaymentTransaction, NSObject)
     NSLog(@"XAPFree---------Intercepted transactionState");
     return SKPaymentTransactionStatePurchased;
 }
+-(NSError*)error{
+    
+    return nil;
+}
 
 @end
 
 PSInitialize {
     
-Class clsToHook= FindClassForProtocal(objc_getProtocol("SKPaymentTransactionObserver"));
+    Class clsToHook= FindClassForProtocal(objc_getProtocol("SKPaymentTransactionObserver"));
     NSLog(@"XAPFree---------Found SKPaymentTransactionObserver:%@",NSStringFromClass(clsToHook));
-    //ZKSwizzle(CLASS_NAME, TARGET_CLASS)
-    
-  //  ZKSwizzle(XAPFreeSKPaymentTransactionObserver,clsToHook);
     ZKSwizzle(XAPFreeSKPaymentTransaction,objc_getClass("SKPaymentTransaction"));
+    NSURL* appStoreReceiptPath=[[NSBundle mainBundle] appStoreReceiptURL];
+    if(![[NSFileManager defaultManager] fileExistsAtPath:appStoreReceiptPath.absoluteString]){
+        //Put A Fake Receipt
+        //Can Be Extracted From Legit Purchase, or, Completely Bullshit
+        [[NSFileManager defaultManager] createFileAtPath:appStoreReceiptPath.absoluteString contents:GetReceipt() attributes:nil];
+        
+        
+    }
+    else{
+        [[NSFileManager defaultManager] moveItemAtPath:appStoreReceiptPath.absoluteString toPath:[NSString stringWithFormat:@"%@/%@",SavedReceiptPath,[[NSBundle mainBundle] bundleIdentifier]] error:nil];
+        //Exists. Back Up So User Can Extract And Share it
+        
+    }
 }
