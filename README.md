@@ -10,5 +10,5 @@ This is my personal effort on making a IAP-Cracker for Mac OS X & iOS. This proj
 2.	Hijack Requests To Apple Validation Server
 3.	Cross-Platform 
 4.	Patch General IAP-Check Libraries
-5.	~~Support Dumping/Reusing Legit Receipts (Replay Attack)~~
+5.	~~Support Dumping/~~Reusing Legit Receipts (Replay Attack)
 6.	Daemon&IPC Techniques For 5

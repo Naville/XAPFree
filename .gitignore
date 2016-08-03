@@ -2,3 +2,4 @@ packages/
 *.dylib
 *.o
 .theos/
+obj/
