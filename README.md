@@ -1,7 +1,7 @@
 #XAPFree
-This is my personal effort on making a IAP-Cracker for Mac OS X. This project is still at its very early stage.
+This is my personal effort on making a IAP-Cracker for Mac OS X & iOS. This project is still at its very early stage.
 
-*Depends on [Parasite](https://github.com/ParasiteTeam)*
+*Needs [Parasite](https://github.com/ParasiteTeam) For CodeInjection on OS X*
 
 **Make In-App-Purchase Great Again**
 
@@ -10,4 +10,5 @@ This is my personal effort on making a IAP-Cracker for Mac OS X. This project is
 2.	Hijack Requests To Apple Validation Server
 3.	Cross-Platform 
 4.	Patch General IAP-Check Libraries
-5.	Support Dumping/Reusing Legit Receipts (Replay Attack)
+5.	~~Support Dumping/Reusing Legit Receipts (Replay Attack)~~
+6.	Daemon&IPC Techniques For 5

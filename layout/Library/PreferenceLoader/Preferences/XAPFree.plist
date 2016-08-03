@@ -1,0 +1,20 @@
+entry = {
+  bundle = AppList;
+  cell = PSLinkCell;
+  icon = "/Library/PreferenceLoader/Preferences/XAPFree.png";
+  isController = 1;
+  label = "XAPFree - Apps";
+  ALSettingsPath = "/var/mobile/Library/Preferences/naville.xapfree.plist";
+  ALSettingsKeyPrefix = "";
+  ALChangeNotification = "naville.xapfree";
+  ALAllowsSelection = 1;
+  ALSectionDescriptors = (
+    {
+      title = "User Applications Profiling";
+      predicate = "isSystemApplication = FALSE";
+      "cell-class-name" = "ALSwitchCell";
+      "icon-size" = 29;
+      "suppress-hidden-apps" = 1;
+    }
+  );
+};
