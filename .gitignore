@@ -1,1 +1,3 @@
 packages/
+*.dylib
+*.o
