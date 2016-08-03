@@ -8,5 +8,6 @@ This is my personal effort on making a IAP-Cracker for Mac OS X. This project is
 #To-Do:
 1.	Local Receipt Validation Patch
 2.	Hijack Requests To Apple Validation Server
-3.	Cross-Platform (a.k.a. Back-port to iOS)
+3.	Cross-Platform 
 4.	Patch General IAP-Check Libraries
+5.	Support Dumping/Reusing Legit Receipts (Replay Attack)
