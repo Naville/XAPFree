@@ -19,7 +19,15 @@
 			OriginalSKPT=SKPT.originalTransaction;
 		}
 		if(OriginalSKPT!=nil){//Restored/Purchased. Save Receipts
-		[PerTransactionDict setObject:OriginalSKPT.transactionReceipt forKey:@"transactionReceipt"];
+		@try{
+			[PerTransactionDict setObject:OriginalSKPT.transactionReceipt forKey:@"transactionReceipt"];
+		}
+		@catch (NSException *exception){
+			NSData* ReceiptData=[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]];
+			if(ReceiptData!=nil){
+			[PerTransactionDict setObject:ReceiptData forKey:@"transactionReceipt"];
+			}
+		}
 		[PerTransactionDict setObject:OriginalSKPT.transactionIdentifier forKey:@"transactionIdentifier"];
 		[PerTransactionDict setObject:OriginalSKPT.transactionDate forKey:@"transactionDate"];
 		[GlobalArray addObject:PerTransactionDict];

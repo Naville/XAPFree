@@ -19,6 +19,16 @@ static XAPSKPaymentTransactionObserver* Observer=nil;
 	return @"SheisMyWiFi";
 }
 %end
+%hook NSURLConnection
++(NSData*)sendSynchronousRequest:(NSURLRequest *)request returningResponse:(NSURLResponse*)response error:(NSError **)Error{
+	if([request.URL.absoluteString isEqualToString:@"https://buy.itunes.apple.com/verifyReceipt"]){
+		return [@"{\"status\":0}" dataUsingEncoding: NSUTF8StringEncoding];
+	}
+	else{
+		return %orig;
+	}
+}
+%end
 %end
 void init_StoreKit(BOOL Preferences){
 		/*NSMutableArray* ClassNameList=FindClassForProtocal(objc_getProtocol("SKPaymentTransactionObserver"));
