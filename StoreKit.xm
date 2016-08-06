@@ -59,6 +59,11 @@ static NSData* GenerateAppleVerifyResponse(NSURLRequest* Request){
 	}
 }
 %end
+%hook NSBundle
+-(NSURL *)appStoreReceiptURL{//So We Won't overwrite legit receipts
+	return [NSURL URLWithString:[%orig.path stringByAppendingString:@"XAPFree"]];
+}
+%end
 %end
 void init_StoreKit(BOOL Preferences){
 		/*NSMutableArray* ClassNameList=FindClassForProtocal(objc_getProtocol("SKPaymentTransactionObserver"));
@@ -81,8 +86,8 @@ void init_StoreKit(BOOL Preferences){
 #ifdef DEBUG
 	NSLog(@"init_StoreKit. Init Hooks");
 #endif	
+	%init(UniversalSK);//Apply Receipt URL hooks before writing
 	[DefaultValidReceipt writeToURL:[[NSBundle mainBundle] appStoreReceiptURL] atomically:YES];
-	%init(UniversalSK);
 	}
 
 }
