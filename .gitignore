@@ -1,5 +1,9 @@
+packages/*
 packages/
 *.dylib
 *.o
+.theos/*.*
+.theos/*
 .theos/
+obj/*
 obj/
