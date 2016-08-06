@@ -46,5 +46,12 @@ BOOL getBoolFromPreferences(NSString *preferenceValue) {
 
 
 }
+%dtor{
+    //[[NSBundle mainBundle] appStoreReceiptURL]
+    [[NSFileManager defaultManager] moveItemAtURL:[NSURL URLWithString:[[[NSBundle mainBundle] appStoreReceiptURL].path stringByAppendingString:@"XAPFreeBackup"]]
+                toURL:[[NSBundle mainBundle] appStoreReceiptURL]
+                 error:nil];
+                 //Put it back
 
+}
 

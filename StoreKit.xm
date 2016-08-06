@@ -59,11 +59,14 @@ static NSData* GenerateAppleVerifyResponse(NSURLRequest* Request){
 	}
 }
 %end
-%hook NSBundle
+//This won't take care of hardcoded paths.
+//Moving Files instead
+
+/*%hook NSBundle
 -(NSURL *)appStoreReceiptURL{//So We Won't overwrite legit receipts
 	return [NSURL URLWithString:[%orig.path stringByAppendingString:@"XAPFree"]];
 }
-%end
+%end*/
 %end
 void init_StoreKit(BOOL Preferences){
 		/*NSMutableArray* ClassNameList=FindClassForProtocal(objc_getProtocol("SKPaymentTransactionObserver"));
@@ -86,6 +89,9 @@ void init_StoreKit(BOOL Preferences){
 #ifdef DEBUG
 	NSLog(@"init_StoreKit. Init Hooks");
 #endif	
+	[[NSFileManager defaultManager] moveItemAtURL:[[NSBundle mainBundle] appStoreReceiptURL]
+                toURL:[NSURL URLWithString:[[[NSBundle mainBundle] appStoreReceiptURL].path stringByAppendingString:@"XAPFreeBackup"]]
+                 error:nil];
 	%init(UniversalSK);//Apply Receipt URL hooks before writing
 	[DefaultValidReceipt writeToURL:[[NSBundle mainBundle] appStoreReceiptURL] atomically:YES];
 	}
