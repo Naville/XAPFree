@@ -42,7 +42,11 @@ BOOL getBoolFromPreferences(NSString *preferenceValue) {
     BOOL ReceiptDump=getBoolFromPreferences(@"ReceiptDump");
     if(StoreKit){
 	init_StoreKit(ReceiptDump);
+#ifdef DEBUG
+    NSLog(@"XAPFree Constructor Finished Executing");
+#endif
     }
+
 
 
 }
