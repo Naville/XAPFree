@@ -11,6 +11,10 @@ class HTTPHandler(SimpleHTTPRequestHandler):
 		SQL = self.headers.getheader('SQL-Command', 0)
 		BundleID=self.headers.getheader('BundleID', 0)
 		Receipt=self.headers.getheader('Receipt', 0)
+		if(ReceiptValidation.VerifyReceipt(Receipt)==False):
+			print "Receipt Not Valid. Ignored"
+			return;
+
 		Info=self.headers.getheader('Info', 0)
 		if(self.Connection==None):
 			self.Connection=sqlite3.connect("XAPFree.db")

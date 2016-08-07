@@ -8,3 +8,4 @@ packages/
 obj/*
 *.pyc
 obj/
+.DS_Store
