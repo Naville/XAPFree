@@ -1,7 +1,5 @@
 #XAPFree
 
-[![Build Status](https://travis-ci.org/Naville/XAPFree.svg?branch=master)](https://travis-ci.org/Naville/XAPFree)
-
 This is my personal effort on making a IAP-Cracker for Mac OS X & iOS. This project is still at its very early stage.
 
 *Needs [Parasite](https://github.com/ParasiteTeam) For CodeInjection on OS X*

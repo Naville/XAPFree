@@ -6,4 +6,5 @@ packages/
 .theos/*
 .theos/
 obj/*
+*.pyc
 obj/
