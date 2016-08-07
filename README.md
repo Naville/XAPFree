@@ -13,3 +13,14 @@ This is my personal effort on making a IAP-Cracker for Mac OS X & iOS. This proj
 4.	Patch General IAP-Check Libraries
 5.	~~Support Dumping/~~Reusing Legit Receipts (Replay Attack)
 6.	Daemon&IPC Techniques For 5
+
+#Build-Notes
+
+By default:
+
+```
+$(hostname -s).local
+
+```
+
+is used as the server address for XAPFree to POST Receipt data to. This can be overwritten by editing Makefile's CFLAGS Accordingly, or by editing *XAPSKDB.m*

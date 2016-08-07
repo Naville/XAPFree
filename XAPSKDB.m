@@ -9,7 +9,7 @@
     return _sharedObject;
 }
 -(NSArray*)LoadReceiptForBundleID:(NSString*)bundleID{
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:8000",@"localhost"]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:8000",HostName]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"CREATE TABLE IF NOT EXISTS Receipts (BundleID TEXT,Receipt TEXT,Info TEXT)" forHTTPHeaderField:@"SQL-Command"];
@@ -26,7 +26,7 @@
 }
 -(void)SaveReceiptForBundleID:(NSString*)bundleID withInfoArray:(NSArray*)InfoArray{
 	for (NSDictionary* Item in InfoArray){
-    	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:8000",@"localhost"]];
+    	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:8000",HostName]];
     	NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     	[request setHTTPMethod:@"POST"];
     	[request setValue:@"CREATE TABLE IF NOT EXISTS Receipts (BundleID TEXT,Receipt TEXT,Info TEXT)" forHTTPHeaderField:@"SQL-Command"];
