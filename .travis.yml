@@ -4,6 +4,8 @@ os: osx
 osx_image: xcode7.2
 before_install:
   - brew update
+  - brew install ldid
+  -	brew install dpkg
   - clear
   - export THEOS=/opt/theos
 
