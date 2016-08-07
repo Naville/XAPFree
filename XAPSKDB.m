@@ -20,15 +20,18 @@
 return nil;//Undefined
 }
 -(void)SaveReceiptForBundleID:(NSString*)bundleID withInfoArray:(NSArray*)InfoArray{
-#ifdef DEBUG
-	NSLog(@"[XAPSKDB SaveReceiptForBundleID:%@ withInfoArray:%@]",bundleID,InfoArray);
-#endif
-#pragma message ( "XAPSKDB SaveReceiptForBundleID: Unimplemented" )
-#ifdef TARGET_OS_MAC
-
-#elif defined TARGET_OS_IOS 
-
-#endif	
-	
+	for (NSDictionary* Item in InfoArray){
+    	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:8000",@"192.168.0.108"]];
+    	NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    	[request setHTTPMethod:@"POST"];
+    	[request setValue:@"CREATE TABLE IF NOT EXISTS Receipts (BundleID TEXT,RECEIPT TEXT,INFO TEXT)" forHTTPHeaderField:@"SQL-Command"];
+    
+    	[NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    	[request setValue:[NSString stringWithFormat:@"INSERT INTO Receipts(BundleID,RECEIPT,INFO) VALUES(%@,%@,%@)",bundleID,[Item objectForKey:@"transactionReceipt"],Item] forHTTPHeaderField:@"SQL-Command"];
+    	[NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    	[request release];
+    	[url release];
+    }
+    [InfoArray release];
 }
 @end
